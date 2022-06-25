@@ -6,6 +6,12 @@ from django.urls import reverse
 
 # Create your models here.
 
+class Category(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
 class Post (models.Model):
 
     class NewManager(models.Manager):
@@ -17,6 +23,7 @@ class Post (models.Model):
     ('published', 'Published'),
     )
 
+    category = models.ForeignKey(Category, on_delete=models.PROTECT, default=1)
     title = models.CharField(max_length=250)
     excerpt = models.TextField(null=True)
     slug = models.SlugField(max_length=250, unique_for_date='publish')
